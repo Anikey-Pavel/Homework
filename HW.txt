@@ -1,0 +1,38 @@
+const data = [
+	{
+		type: "input",
+		id: "name",
+		value: "",
+		placeholder: "name",
+	},
+	{
+		type: "input",
+		id: "surname",
+		value: "",
+		placeholder: "surname",
+	},
+	{
+		type: "date",
+		id: "birthday",
+		value: "",
+		placeholder: "date of birth",
+	},
+	{
+		type: "toggle",
+		id: "sex",
+		value: "man",
+		options: ["man", "woman"],
+		placeholder: "sex",
+	},
+	{
+		type: "checkbox",
+		id: "time",
+		value: "",
+		options: ["9-10 AM", "11-102 AM", "1-2 PM", "3-4 PM", "5-6 PM"],
+		placeholder: "select timeslot for assessment",
+	},
+];
+
+// Перед вами массив данных, вы должны создать форму на странице а затем поместать в нее элементы созданные на основе этого массива данных,
+// поле type определяет тип создаваемого элемента, value его текущее значение, options доступные варианты, placeholder это атрибут лейб, id это ваш id, так же name, при помощи id мы связываем placeholder и элемент,
+// после создания формы мы создаем кнопку submit при надатии на которую мы должны пройтись по всем элементам и создать на их основе массив [{id: id, value: новое значение}] и просто вывести его
