@@ -1,6 +1,6 @@
 const images = ['./img/1.png', './img/2.png', './img/3.png'];
 
-function loadImage() {
+function loadImage(arr) {
 
 	const ul = document.createElement('ul');
 
@@ -8,7 +8,7 @@ function loadImage() {
 	document.body.append(ul);
 
 	const promise = new Promise((resolve, reject) => {
-		images.forEach((elem) => {
+		arr.forEach((elem) => {
 
 			const li = document.createElement('li');
 			const img = document.createElement('img');
@@ -30,7 +30,7 @@ function loadImage() {
 
 }
 
-loadImage();
+loadImage(images);
 
 const list = document.querySelector('.list');
 const li = document.querySelector('.list__item');
