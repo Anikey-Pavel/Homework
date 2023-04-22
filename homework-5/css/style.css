@@ -43,6 +43,15 @@ body {
 }
 
 .task__add {
+	margin: 20px;
+	padding: 10px;
+	display: flex;
+	justify-content: space-between;
+	background-color: rgb(69, 69, 69);
+	border-radius: 10px;
+}
+
+/* .task__button {
 	border-radius: 5px;
 	padding: 10px;
 	background-color: grey;
@@ -50,7 +59,7 @@ body {
 	color: white;
 	width: 100%;
 	font-size: 20px;
-}
+} */
 
 .task__add :active {
 	top: 10px;
