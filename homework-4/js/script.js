@@ -1,36 +1,28 @@
 const images = ['./img/1.png', './img/2.png', './img/3.png'];
 
-function loadImage(arr) {
+const ul = document.createElement('ul');
 
-	const ul = document.createElement('ul');
+ul.classList.add('list');
+document.body.append(ul);
 
-	ul.classList.add('list');
-	document.body.append(ul);
+const promise = new Promise((resolve, reject) => {
+	images.onload = () => resolve(images)
+	images.onerror = (error) => reject(alert(error));
+})
 
-	const promise = new Promise((resolve, reject) => {
-		arr.forEach((elem) => {
+promise.then(images.forEach(function (element) {
+	console.log(element)
+	const li = document.createElement('li');
+	const img = document.createElement('img');
 
-			const li = document.createElement('li');
-			const img = document.createElement('img');
+	img.classList.add('list__image');
+	li.classList.add('list__item');
 
-			img.classList.add('list__image');
-			li.classList.add('list__item');
-
-			img.src = elem;
-			img.style.cursor = 'pointer'
-
-			ul.append(li);
-			li.append(img);
-
-			img.onload = () => resolve(img);
-			img.onerror = (error) => reject(alert(error));
-
-		})
-	})
-
-}
-
-loadImage(images);
+	img.src = element;
+	img.style.cursor = 'pointer'
+	ul.append(li);
+	li.append(img);
+}))
 
 const list = document.querySelector('.list');
 const li = document.querySelector('.list__item');

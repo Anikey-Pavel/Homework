@@ -96,7 +96,7 @@ fetch('https://jsonplaceholder.typicode.com/todos')
 			}
 		})
 
-		document.body.addEventListener("click", (event) => {
+		document.body.addEventListener("change", (event) => {
 			const inputs = document.querySelectorAll('.task__completed');
 			const checkbox = event.target.closest('.task');
 			for (let input of inputs) {
@@ -158,15 +158,12 @@ fetch('https://jsonplaceholder.typicode.com/todos')
 			block.append(buttonDelete);
 		}
 
-
-		(function () {
-			input.addEventListener('keydown', function (e) {
-				if (e.keyCode === 13) {
-					addTask()
-					input.value = ''
-				}
-			});
-		})();
+		input.addEventListener('keydown', function (e) {
+			if (e.keyCode === 13) {
+				addTask()
+				input.value = ''
+			}
+		});
 
 		button.addEventListener("click", () => {
 
