@@ -20,62 +20,56 @@ fetch('https://jsonplaceholder.typicode.com/todos')
 			finished: []
 		});
 
-		finished.forEach(e => {
-			const block = document.createElement('div');
-			const checkbox = document.createElement('input');
-			const buttonDelete = document.createElement('button');
-			const title = document.createElement('h2');
-			const user = document.createElement('p');
+		function createTask(arr) {
+			arr.forEach(e => {
+				const block = document.createElement('div');
+				const checkbox = document.createElement('input');
+				const buttonDelete = document.createElement('button');
+				const title = document.createElement('h2');
+				const user = document.createElement('p');
 
-			block.classList.add('task');
-			user.classList.add('task__user-name');
-			checkbox.classList.add('task__completed');
-			buttonDelete.classList.add('task__delete');
-			title.classList.add('task__title');
+				block.classList.add('task');
+				user.classList.add('task__user-name');
+				checkbox.classList.add('task__completed');
+				buttonDelete.classList.add('task__delete');
+				title.classList.add('task__title');
 
-			buttonDelete.innerText = 'Delete';
-			user.innerText = 'userId' + ': ' + e.id;
-			title.innerText = e.title;
+				buttonDelete.innerText = 'Delete';
+				user.innerText = 'userId' + ': ' + e.id;
+				title.innerText = e.title;
 
-			checkbox.type = 'checkbox';
-			if (e.completed) {
-				checkbox.checked = true;
+				conteiner.append(block);
+				block.append(user);
+				block.append(checkbox);
+				block.append(title);
+				block.append(buttonDelete);
+			})
+		}
+
+		createTask(finished)
+
+		finished.forEach((e) => {
+			const checkbox = document.querySelectorAll('.task__completed');
+			for (let check of checkbox) {
+				check.type = 'checkbox';
+				if (e.completed) {
+					check.checked = true;
+				} else {
+					check.checked = false;
+				}
 			}
-
-			conteiner.append(block);
-			block.append(user);
-			block.append(checkbox);
-			block.append(title);
-			block.append(buttonDelete);
 		});
 
+		createTask(unfinished)
+
 		unfinished.forEach(e => {
-			const block = document.createElement('div');
-			const checkbox = document.createElement('input');
-			const buttonDelete = document.createElement('button');
-			const title = document.createElement('h2');
-			const user = document.createElement('p');
-
-			block.classList.add('task');
-			user.classList.add('task__user-name');
-			checkbox.classList.add('task__completed');
-			buttonDelete.classList.add('task__delete');
-			title.classList.add('task__title');
-
-			buttonDelete.innerText = 'Delete';
-			user.innerText = 'userId' + ': ' + e.id;
-			title.innerText = e.title;
-
-			checkbox.type = 'checkbox';
-			if (e.completed === 'false') {
-				checkbox.checked = false;
+			const checkbox = document.querySelectorAll('.task__completed');
+			for (let check of checkbox) {
+				check.type = 'checkbox';
+				if (e.completed === 'false') {
+					check.checked = false;
+				}
 			}
-
-			conteiner.append(block);
-			block.append(user);
-			block.append(checkbox);
-			block.append(title);
-			block.append(buttonDelete);
 		});
 
 		document.body.addEventListener("click", (event) => {
