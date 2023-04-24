@@ -73,42 +73,56 @@ fetch('https://jsonplaceholder.typicode.com/todos')
 		});
 
 		document.body.addEventListener("click", (event) => {
-			const block = document.querySelector('.task')
-			const buttonDelete = document.querySelectorAll('.task__delete')
-			const btn = event.target.closest('.task');
-			for (let button of buttonDelete) {
-				if (event.target === button) {
-					fetch('https://jsonplaceholder.typicode.com/todos', {
-						method: 'DELETE'
-					})
-						.then(response => response.json())
-						.then(json => {
-							btn.remove()
-						})
-				}
-				if (!btn) return
-			}
+			if (event.target.className != 'task__delete') return;
+
+			let task = event.target.closest('.task');
+
+			fetch('https://jsonplaceholder.typicode.com/todos', {
+				method: 'DELETE'
+			})
+				.then(response => response.json())
+				.then(json => {
+					task.remove();
+				})
 		})
 
-		document.body.addEventListener("change", (event) => {
-			const inputs = document.querySelectorAll('.task__completed');
+		// document.body.addEventListener("change", (event) => {
+		// 	const inputs = document.querySelectorAll('.task__completed');
+		// 	const checkbox = event.target.closest('.task');
+		// 	for (let input of inputs) {
+		// 		if (event.target === input) {
+		// 			fetch('https://jsonplaceholder.typicode.com/todos', {
+		// 				method: 'PUT'
+		// 			})
+		// 				.then(response => response.json())
+		// 				.then(json => {
+		// 					if (input.checked) {
+		// 						conteiner.prepend(checkbox)
+		// 					} else {
+		// 						conteiner.append(checkbox)
+		// 					}
+		// 				})
+		// 		}
+		// 		if (!checkbox) return
+		// 	}
+		// })
+
+		conteiner.addEventListener("change", (event) => {
+			if (event.target.className != 'task__completed') return;
 			const checkbox = event.target.closest('.task');
-			for (let input of inputs) {
-				if (event.target === input) {
-					fetch('https://jsonplaceholder.typicode.com/todos', {
-						method: 'PUT'
-					})
-						.then(response => response.json())
-						.then(json => {
-							if (input.checked) {
-								conteiner.prepend(checkbox)
-							} else {
-								conteiner.append(checkbox)
-							}
-						})
-				}
-				if (!checkbox) return
-			}
+			console.log(checkbox)
+
+			fetch('https://jsonplaceholder.typicode.com/todos', {
+				method: 'PUT'
+			})
+				.then(response => response.json())
+				.then(json => {
+					if (input.checked) {
+						conteiner.prepend(checkbox)
+					} else {
+						conteiner.append(checkbox)
+					}
+				})
 		})
 
 		const add = document.createElement('div');
