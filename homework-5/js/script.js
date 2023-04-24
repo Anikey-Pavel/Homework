@@ -20,101 +20,109 @@ fetch('https://jsonplaceholder.typicode.com/todos')
 			finished: []
 		});
 
-		finished.forEach(e => {
-			const block = document.createElement('div');
-			const checkbox = document.createElement('input');
-			const buttonDelete = document.createElement('button');
-			const title = document.createElement('h2');
-			const user = document.createElement('p');
+		function createTask(arr) {
+			arr.forEach(e => {
+				const block = document.createElement('div');
+				const checkbox = document.createElement('input');
+				const buttonDelete = document.createElement('button');
+				const title = document.createElement('h2');
+				const user = document.createElement('p');
 
-			block.classList.add('task');
-			user.classList.add('task__user-name');
-			checkbox.classList.add('task__completed');
-			buttonDelete.classList.add('task__delete');
-			title.classList.add('task__title');
+				block.classList.add('task');
+				user.classList.add('task__user-name');
+				checkbox.classList.add('task__completed');
+				buttonDelete.classList.add('task__delete');
+				title.classList.add('task__title');
 
-			buttonDelete.innerText = 'Delete';
-			user.innerText = 'userId' + ': ' + e.id;
-			title.innerText = e.title;
+				buttonDelete.innerText = 'Delete';
+				user.innerText = 'userId' + ': ' + e.id;
+				title.innerText = e.title;
 
-			checkbox.type = 'checkbox';
-			if (e.completed) {
-				checkbox.checked = true;
+				conteiner.append(block);
+				block.append(user);
+				block.append(checkbox);
+				block.append(title);
+				block.append(buttonDelete);
+			})
+		}
+
+		createTask(finished)
+
+		finished.forEach((e) => {
+			const checkbox = document.querySelectorAll('.task__completed');
+			for (let check of checkbox) {
+				check.type = 'checkbox';
+				if (e.completed) {
+					check.checked = true;
+				} else {
+					check.checked = false;
+				}
 			}
-
-			conteiner.append(block);
-			block.append(user);
-			block.append(checkbox);
-			block.append(title);
-			block.append(buttonDelete);
 		});
+
+		createTask(unfinished)
 
 		unfinished.forEach(e => {
-			const block = document.createElement('div');
-			const checkbox = document.createElement('input');
-			const buttonDelete = document.createElement('button');
-			const title = document.createElement('h2');
-			const user = document.createElement('p');
-
-			block.classList.add('task');
-			user.classList.add('task__user-name');
-			checkbox.classList.add('task__completed');
-			buttonDelete.classList.add('task__delete');
-			title.classList.add('task__title');
-
-			buttonDelete.innerText = 'Delete';
-			user.innerText = 'userId' + ': ' + e.id;
-			title.innerText = e.title;
-
-			checkbox.type = 'checkbox';
-			if (e.completed === 'false') {
-				checkbox.checked = false;
+			const checkbox = document.querySelectorAll('.task__completed');
+			for (let check of checkbox) {
+				check.type = 'checkbox';
+				if (e.completed === 'false') {
+					check.checked = false;
+				}
 			}
-
-			conteiner.append(block);
-			block.append(user);
-			block.append(checkbox);
-			block.append(title);
-			block.append(buttonDelete);
 		});
 
 		document.body.addEventListener("click", (event) => {
-			const block = document.querySelector('.task')
-			const buttonDelete = document.querySelectorAll('.task__delete')
-			const btn = event.target.closest('.task');
-			for (let button of buttonDelete) {
-				if (event.target === button) {
-					fetch('https://jsonplaceholder.typicode.com/todos', {
-						method: 'DELETE'
-					})
-						.then(response => response.json())
-						.then(json => {
-							btn.remove()
-						})
-				}
-				if (!btn) return
-			}
+			if (event.target.className != 'task__delete') return;
+
+			let task = event.target.closest('.task');
+
+			fetch('https://jsonplaceholder.typicode.com/todos', {
+				method: 'DELETE'
+			})
+				.then(response => response.json())
+				.then(json => {
+					task.remove();
+				})
 		})
 
-		document.body.addEventListener("click", (event) => {
-			const inputs = document.querySelectorAll('.task__completed');
+		// document.body.addEventListener("change", (event) => {
+		// 	const inputs = document.querySelectorAll('.task__completed');
+		// 	const checkbox = event.target.closest('.task');
+		// 	for (let input of inputs) {
+		// 		if (event.target === input) {
+		// 			fetch('https://jsonplaceholder.typicode.com/todos', {
+		// 				method: 'PUT'
+		// 			})
+		// 				.then(response => response.json())
+		// 				.then(json => {
+		// 					if (input.checked) {
+		// 						conteiner.prepend(checkbox)
+		// 					} else {
+		// 						conteiner.append(checkbox)
+		// 					}
+		// 				})
+		// 		}
+		// 		if (!checkbox) return
+		// 	}
+		// })
+
+		conteiner.addEventListener("change", (event) => {
+			if (event.target.className != 'task__completed') return;
 			const checkbox = event.target.closest('.task');
-			for (let input of inputs) {
-				if (event.target === input) {
-					fetch('https://jsonplaceholder.typicode.com/todos', {
-						method: 'PUT'
-					})
-						.then(response => response.json())
-						.then(json => {
-							if (input.checked) {
-								conteiner.prepend(checkbox)
-							} else {
-								conteiner.append(checkbox)
-							}
-						})
-				}
-				if (!checkbox) return
-			}
+			console.log(checkbox)
+
+			fetch('https://jsonplaceholder.typicode.com/todos', {
+				method: 'PUT'
+			})
+				.then(response => response.json())
+				.then(json => {
+					if (input.checked) {
+						conteiner.prepend(checkbox)
+					} else {
+						conteiner.append(checkbox)
+					}
+				})
 		})
 
 		const add = document.createElement('div');
@@ -158,15 +166,12 @@ fetch('https://jsonplaceholder.typicode.com/todos')
 			block.append(buttonDelete);
 		}
 
-
-		(function () {
-			input.addEventListener('keydown', function (e) {
-				if (e.keyCode === 13) {
-					addTask()
-					input.value = ''
-				}
-			});
-		})();
+		input.addEventListener('keydown', function (e) {
+			if (e.keyCode === 13) {
+				addTask()
+				input.value = ''
+			}
+		});
 
 		button.addEventListener("click", () => {
 
