@@ -86,41 +86,25 @@ fetch('https://jsonplaceholder.typicode.com/todos')
 				})
 		})
 
-		// document.body.addEventListener("change", (event) => {
-		// 	const inputs = document.querySelectorAll('.task__completed');
-		// 	const checkbox = event.target.closest('.task');
-		// 	for (let input of inputs) {
-		// 		if (event.target === input) {
-		// 			fetch('https://jsonplaceholder.typicode.com/todos', {
-		// 				method: 'PUT'
-		// 			})
-		// 				.then(response => response.json())
-		// 				.then(json => {
-		// 					if (input.checked) {
-		// 						conteiner.prepend(checkbox)
-		// 					} else {
-		// 						conteiner.append(checkbox)
-		// 					}
-		// 				})
-		// 		}
-		// 		if (!checkbox) return
-		// 	}
-		// })
-
 		conteiner.addEventListener("change", (event) => {
 			if (event.target.className != 'task__completed') return;
-			const checkbox = event.target.closest('.task');
-			console.log(checkbox)
+			const task = event.target.closest('.task');
 
 			fetch('https://jsonplaceholder.typicode.com/todos', {
 				method: 'PUT'
 			})
 				.then(response => response.json())
 				.then(json => {
-					if (input.checked) {
-						conteiner.prepend(checkbox)
-					} else {
-						conteiner.append(checkbox)
+					const clone = task.cloneNode(true);
+
+					if (document.querySelector('.task__completed').checked) {
+						task.remove()
+						conteiner.prepend(clone)
+					}
+
+					if (document.querySelector('.task__completed').checked === false) {
+						task.remove()
+						conteiner.append(clone)
 					}
 				})
 		})
